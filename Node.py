@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self, interval, parent = None, leftChild = None, rightChild = None, height = None, intervalArr = None):
+    def __init__(self, interval, parent = None, leftChild = None, rightChild = None, height = None, intervalArr = {}):
         self.interval = interval 
         self.parent = parent
         self.leftChild = leftChild
@@ -11,6 +11,9 @@ class Node:
         return self.interval 
 
     def getIntervalArr(self):
+        return list(self.intervalArr.keys())
+
+    def getIntervalDict(self):
         return self.intervalArr
 
     def getParent(self):
@@ -37,5 +40,35 @@ class Node:
     def setInterval(self, interval):
         self.interval = interval
 
-    def setIntervalArr(self, intervalArr):
+    def setintervalArr(self, intervalArr):
         self.intervalArr = intervalArr
+
+    def addInterval(self, interval):
+        self.intervalArr[tuple(interval)] = True
+
+    def searchInterval(self, interval):
+        try:
+            if self.intervalArr[tuple(interval.getInterval())]:
+                return True 
+            return False 
+        except:
+            return False
+
+    def deleteInterval(self, interval):
+        try:
+            del self.intervalArr[interval]
+        except:
+            pass
+
+    @staticmethod 
+    def getOverlappingIntervals(node1, node2):
+        arr1 = node1.getIntervalDict()
+        arr2 = node2.getIntervalDict()
+        d = {}
+        for each in arr1.keys():
+            try:
+                if arr2[each] == 1:
+                    d[each] = 1
+            except:
+                pass 
+        return d
