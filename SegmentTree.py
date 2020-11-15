@@ -1,19 +1,19 @@
 import sys
 import copy
 import operator
+from Node     import Node
 from Interval import Interval
-from Node import Node
 
-MIN = sys.float_info.min
-MAX = sys.float_info.max
-epsilon = 1e-4
+MIN     = sys.float_info.min
+MAX     = sys.float_info.max
+epsilon = 1e-4 # to perturb points
 
 def getElementaryIntervals(intervals, returnList = 0):
     arr         = []
     for each in intervals:
         arr.append((each[0]))
         arr.append((each[1]))
-    arr = (sorted(arr))
+    arr                 = (sorted(arr))
     elementaryIntervals = []
     elementaryIntervals.append(Interval(MIN, arr[0]-epsilon))
     for i in range(0, len(arr)-1):
@@ -50,10 +50,11 @@ def recursiveCreateSegmentTree(nodes):
 
 def createSegmentTree(intervals):
     elemIntervals = getElementaryIntervals(intervals)
-    nodes = []
+    nodes         = []
     for each in elemIntervals:
         nodes.append(Node(each, height=0))   
-    return recursiveCreateSegmentTree(nodes)
+    root = recursiveCreateSegmentTree(nodes)
+    return attachIntervals(root, intervals)
 
 def searchForElemInterval(root, value):
     curr = root 
@@ -77,7 +78,7 @@ def searchForElemInterval(root, value):
         return curr
 
 def query(root, value):
-    out = []
+    out  = []
     curr = root 
     while True:
         if len(curr.getIntervalArr()) > 0:
@@ -135,8 +136,4 @@ def BFS(root):
 if __name__ == "__main__":
     intervals = [[54, 75], [26, 72], [35, 84], [0, 84], [82, 85]]
     root = createSegmentTree(intervals)
-    root = attachIntervals(root, intervals)
-    elemIntervals = getElementaryIntervals(intervals)
-    for each in elemIntervals:
-        each.print()
-    print(query(root, 4.9))
+    print(query(root, 85))

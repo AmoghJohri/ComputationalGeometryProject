@@ -1,8 +1,8 @@
 class Interval:
     def __init__(self, left, right):
-        self.left = left 
+        self.left  = left 
         self.right = right
-        self.mid = (right + left)/2
+        self.mid   = (right + left)/2
         
     def getLeft(self):
         return self.left 

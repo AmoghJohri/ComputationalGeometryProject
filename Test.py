@@ -1,4 +1,3 @@
-import time
 import random
 from SegmentTree import *
 import matplotlib.pyplot as plt 
@@ -9,11 +8,14 @@ def equal_ignore_order(a, b):
         d[tuple(each)] = 1
     for each in b:
         try:
-            if d[each] == 0:
+            if d[tuple(each)] == 0:
                 return False 
         except:
             return False 
     return True
+
+def compare_list_of_lists(a, b):
+    return equal_ignore_order(a, b) and equal_ignore_order(b, a)
 
 def bruteForce(arr, query):
     out = []
@@ -26,41 +28,27 @@ def segSearch(root, queryPoint):
     return query(root, queryPoint)
 
 if __name__ == "__main__":
-    n = 50
+    n        = 7
     rangeMin = 0
     rangeMax = 100
-    arr = []
+    arr      = []
     queryNum = 100
     queryArr = [random.random()*rangeMax for i in range(queryNum)]
-    i = 0
+    i        = 0
     while i < n:
         var1 = random.randint(rangeMin, rangeMax)
         var2 = random.randint(rangeMin, rangeMax)
         arr.append([min(var1, var2), max(var1, var2)])
-        i += 1
-    root = createSegmentTree(arr)
-    root = attachIntervals(root, arr)
+        i   += 1
+    root     = createSegmentTree(arr)
     # print("Intervals: ", arr)
-    time_analysis_brute = []
-    time_analysis_seg = []
+    acc = 0.
     for each in queryArr:
-        s = time.time()
-        b = segSearch(root, each)
-        time_analysis_seg.append(time.time() - s)
-        s = time.time()
+        a = segSearch(root, each)
         b = bruteForce(arr, each)
-        time_analysis_brute.append(time.time() - s)
-    i = 1
-    while i < queryNum:
-        time_analysis_seg[i] = time_analysis_seg[i-1] + time_analysis_seg[i]
-        time_analysis_brute[i] = time_analysis_brute[i-1] + time_analysis_brute[i]
-        i += 1
-    plt.plot([i for i in range(1, queryNum+1)], time_analysis_brute)
-    plt.plot([i for i in range(1, queryNum+1)], time_analysis_seg)
-    plt.legend(["Brute Force", "Segment Tree"])
-    plt.ylabel("Time Taken")
-    plt.xlabel("Number of Queries")
-    plt.title("Time Analysis")
-    plt.grid()
-    plt.plot()
-    plt.show()
+        if compare_list_of_lists(a, b):
+            acc += 1.
+        else:
+            print(a)
+            print(b)
+    print("Accuracy: ", (acc/queryNum)*100., "%")
