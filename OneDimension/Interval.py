@@ -3,6 +3,9 @@ class Interval:
         self.left  = left 
         self.right = right
         self.mid   = (right + left)/2
+
+    def copy(self):
+        return Interval(self.left, self.right)
         
     def getLeft(self):
         return self.left 
@@ -14,10 +17,10 @@ class Interval:
         return self.mid
 
     def getInterval(self):
-        return [self.left, self.right]
+        return (self.left, self.right)
 
     def print(self):
-        print([self.left, self.right])
+        print((self.left, self.right))
 
     def contains(self, I):
         if self.getLeft() <= I.getLeft() and self.getRight() >= I.getRight():
@@ -48,21 +51,4 @@ class Interval:
         if val == I.getLeft() or val == I.getRight():
             return True 
         return False 
-
-    @staticmethod 
-    def intersects(I1, I2):
-        if I1.getLeft() > I2.getRight() and I1.getMid() > I2.getMid():
-            return False
-        elif I2.getLeft() > I1.getRight() and I2.getMid() > I1.getMid():
-            return False
-        return True
-
-    @staticmethod 
-    def listOverlap(l1, l2):
-        if l1[0] >= l2[0] and l1[0] <= l2[1]:
-            return True 
-        elif l2[0] >= l1[0] and l2[0] <= l1[1]:
-            return True 
-        else:
-            False
 

@@ -11,7 +11,7 @@ class Node:
         return self.interval 
 
     def getIntervalArr(self):
-        return list(self.intervalArr.keys())
+        return tuple(self.intervalArr.keys())
 
     def getIntervalDict(self):
         return self.intervalArr
