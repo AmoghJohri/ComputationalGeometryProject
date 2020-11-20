@@ -38,5 +38,8 @@ class Line:
     def getKey(self):
         return (self.getTopPoint() + self.getBottomPoint())/2
 
+    def getLine(self):
+        return [ [self.x_interval[0], self.y_interval[0] ], [self.x_interval[1], self.y_interval[1]] ]
+
     def print(self):
         print([ [self.x_interval[0], self.y_interval[0] ], [self.x_interval[1], self.y_interval[1]] ])

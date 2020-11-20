@@ -115,7 +115,7 @@ def query(root, query):
     interval = query[1]
     while True:
         if not curr.getTree().is_empty():
-            out.extend(curr.getTree()[interval[0]:interval[1]].values())
+            out.extend(curr.getTree()[interval[0]:interval[1]+epsilon].values())
         if curr.getLeftChild() != None:
             if Interval.liesOnInterval(curr.getLeftChild().getInterval(), x_value):
                 curr = curr.getLeftChild()
@@ -154,7 +154,7 @@ if __name__ == "__main__":
                 [(1.,5.), (6.,6.)], [(4.,7.), (5.,6.)], \
                 [(2.,6.), (5.,8.)]]
     root = createSegmentTree(intervals)
-    q = (3, (1, 8))
+    q = (8, (1, 8))
     out = query(root, q)
     for each in out:
         each.print()
