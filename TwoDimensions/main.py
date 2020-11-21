@@ -70,7 +70,7 @@ class Main:
         buildSegmentTreeButton = tk.Button(root, text="Build Segment Tree", command=buildSegmentTree, height=1, width=20)
         resetCounterButton = tk.Button(root, text="Reset Counter", command=resetCounter, height=1, width=20)
         drawQueryButton = tk.Button(root, text="Draw Query Result", command=drawQuery, height=1, width=20)
-        # drawSegmentTreeButton = tk.Button(root, text="Draw Segment Tree", command=drawSegmentTree, height=1, width=20)
+        drawSegmentTreeButton = tk.Button(root, text="Draw Segment Tree", command=drawSegmentTree, height=1, width=20)
         clearScreenButton.grid(row=0,column=0,padx=(30,30),pady=(5,5))
         getIntervalsButton.grid(row=0,column=1,padx=(30,30),pady=(5,5))
         showElementaryIntervalsButton.grid(row=1, column=0,padx=(30,30),pady=(5,5))
@@ -81,7 +81,7 @@ class Main:
         buildSegmentTreeButton.grid(row=3,column=0,padx=(30,30),pady=(5,5))
         resetCounterButton.grid(row=4,column=0,padx=(30,30),pady=(5,5))
         drawQueryButton.grid(row=4,column=1,padx=(30,30),pady=(5,5))
-        # drawSegmentTreeButton.grid(row=5,column=0,padx=(30,30),pady=(5,5))
+        drawSegmentTreeButton.grid(row=5,column=0,padx=(30,30),pady=(5,5))
 
         root.mainloop()
 

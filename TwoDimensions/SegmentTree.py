@@ -1,6 +1,5 @@
 import sys
 import copy
-from bintrees import AVLTree 
 
 from Node     import Node
 from Line     import Line 
@@ -114,8 +113,7 @@ def query(root, query):
     x_value = query[0]
     interval = query[1]
     while True:
-        if not curr.getTree().is_empty():
-            out.extend(curr.getTree()[interval[0]:interval[1]+epsilon].values())
+        out.extend(curr.query([interval[0],interval[1]]))
         if curr.getLeftChild() != None:
             if Interval.liesOnInterval(curr.getLeftChild().getInterval(), x_value):
                 curr = curr.getLeftChild()
@@ -149,12 +147,15 @@ def BFS(root):
         print(curr.getTree())
     
 if __name__ == "__main__":
-    intervals = [[(1.,1.), (4.,5.)], [(3.,1.), (4.,3.)], \
-                [(4.,4.), (6.,2.)], [(5.,5.), (7.,3.)], \
-                [(1.,5.), (6.,6.)], [(4.,7.), (5.,6.)], \
-                [(2.,6.), (5.,8.)]]
+    # intervals = [[(1.,1.), (7.,5.)], [(3.,2.), (4.,1.)], \
+    #             [(4.,2.), (6.,3.)], [(5.,3.), (7.,4.)], \
+    #             [(1.,2.), (2.,4.)], [(1.,6.), (3.,3.)], \
+    #             [(2.,5.), (4.,7.)], [(3.,5.), (5.,4.)], \
+    #             [(4.,5.), (6.,6.)], [(4.,8.), (5.,7.)]]
+    intervals = [[(160, 200), (460, 80)], [(360, 180), (500, 280)], [(260, 240), (420, 120)]]
     root = createSegmentTree(intervals)
-    q = (8, (1, 8))
+    q = [420, [40, 120]]
+    print("Query: " + str(q))
     out = query(root, q)
     for each in out:
         each.print()

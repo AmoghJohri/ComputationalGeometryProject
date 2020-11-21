@@ -51,4 +51,3 @@ class Interval:
         if val == I.getLeft() or val == I.getRight():
             return True 
         return False 
-

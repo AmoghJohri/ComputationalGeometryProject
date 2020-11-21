@@ -1,21 +1,26 @@
-from bintrees import AVLTree 
+from AVL import AVL_Tree 
 from Line     import Line
+from treeInterval import TreeInterval
 
 class Node:
-    def __init__(self, interval, parent = None, leftChild = None, rightChild = None, height = None, root = AVLTree({})):
+    def __init__(self, interval, parent = None, leftChild = None, rightChild = None, height = None, bst = AVL_Tree(), root = None):
         self.interval    = interval 
         self.parent      = parent
         self.leftChild   = leftChild
         self.rightChild  = rightChild
         self.height      = height 
         self.root        = root
+        self.bst         = bst
 
     def getTree(self):
         return self.root
 
+    def query(self, interval):
+        return self.bst.query(self.root, interval)
+
     def addSegment(self, line):
-        key = ((self.interval.getLeft()*line.getSlope() + line.getConstant()) + (self.interval.getRight()*line.getSlope() + line.getConstant()))/2.
-        self.root.insert(key, line)
+        key = TreeInterval(((self.interval.getLeft()*line.getSlope() + line.getConstant()),  (self.interval.getRight()*line.getSlope() + line.getConstant())))
+        self.root = self.bst.insert(self.root, key, line)
 
     def getInterval(self):
         return self.interval 

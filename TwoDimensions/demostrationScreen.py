@@ -49,6 +49,22 @@ class DemonstrationScreen:
             each = each.getLine()
             self.canvas.create_line(each[0][0], each[0][1], each[1][0], each[1][1], width=3)
 
+    def drawSegmentTree(self, root):
+        q = []
+        q.append(root)
+        while q:
+            curr = q.pop(0)
+            if curr.getLeftChild() != None:
+                q.append(curr.getLeftChild())
+            if curr.getRightChild() != None:    
+                q.append(curr.getRightChild())
+            mid = curr.getInterval().getMid()
+            self.canvas.create_line(mid-3, 500 - curr.getHeight()*50, mid+3, 500 - curr.getHeight()*50)
+            if curr.getLeftChild() != None:
+                self.canvas.create_line(mid, 500 - curr.getHeight()*50, curr.getLeftChild().getInterval().getMid(), 500 - curr.getLeftChild().getHeight()*50)
+            if curr.getRightChild() != None:
+                self.canvas.create_line(mid, 500 - curr.getHeight()*50, curr.getRightChild().getInterval().getMid(), 500 - curr.getRightChild().getHeight()*50)
+
 
 if __name__ == "__main__":
     demonstrationScreen = DemonstrationScreen()
