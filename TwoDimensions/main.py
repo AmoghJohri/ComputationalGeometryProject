@@ -55,8 +55,7 @@ class Main:
         def drawQuery():
             arr = SegmentTree.query(self.root, self.queryPoints[self.counter])
             demonstrationScreenWindow.drawQuery(self.queryPoints[self.counter], arr)
-            self.counter += 1
-            self.counter = self.counter%len(self.queryPoints)
+            self.counter = (self.counter + 1)%len(self.queryPoints)
 
         def drawSegmentTree():
             demonstrationScreenWindow.drawSegmentTree(self.root)
@@ -66,7 +65,7 @@ class Main:
         showElementaryIntervalsButton = tk.Button(root, text="Show Elem. Intervals", command=showElementaryIntervals, height=1, width=20)
         clearDemoScreenButton = tk.Button(root, text="Clear Demo. Screen", command=clearDemoScreen, height=1, width=20)
         drawLinesButton = tk.Button(root, text="Draw Intervals", command=drawLines, height=1, width=20)
-        drawPointsButton = tk.Button(root, text="Draw Points", command=drawPoints, height=1, width=20)
+        drawPointsButton = tk.Button(root, text="Draw Query Segments", command=drawPoints, height=1, width=20)
         getQueryPointsButton = tk.Button(root, text="Get Query Segments", command=getQueryPoints, height=1, width=20)
         buildSegmentTreeButton = tk.Button(root, text="Build Segment Tree", command=buildSegmentTree, height=1, width=20)
         resetCounterButton = tk.Button(root, text="Reset Counter", command=resetCounter, height=1, width=20)

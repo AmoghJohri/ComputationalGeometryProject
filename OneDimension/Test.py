@@ -42,7 +42,6 @@ def randomTest(n):
         arr.append([min(var1, var2), max(var1, var2)])
         i   += 1
     root     = createSegmentTree(arr)
-    # print("Intervals: ", arr)
     acc = 0.
     bruteTime = []
     segmentTime = []

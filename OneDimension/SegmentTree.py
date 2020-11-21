@@ -91,27 +91,6 @@ def attachIntervals(root, intervals):
         attachInterval(root, Interval(each[0], each[1]))
     return root
 
-def searchForElemInterval(root, value):
-    curr = root 
-    while True:
-        if curr.getLeftChild() != None:
-            if Interval.liesOnInterval(curr.getLeftChild().getInterval(), value):
-                curr = curr.getLeftChild()
-                continue 
-        if curr.getRightChild() != None:
-            if Interval.liesOnInterval(curr.getRightChild().getInterval(), value):
-                curr = curr.getRightChild()
-                continue 
-        if curr.getLeftChild() != None:
-            if Interval.liesInInterval(curr.getLeftChild().getInterval(), value):
-                curr = curr.getLeftChild()
-                continue 
-        if curr.getRightChild() != None:
-            if Interval.liesInInterval(curr.getRightChild().getInterval(), value):
-                curr = curr.getRightChild()
-                continue 
-        return curr
-
 def query(root, value):
     out  = []
     curr = root 

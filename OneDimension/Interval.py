@@ -30,9 +30,9 @@ class Interval:
     def overlaps(self, I):
         if self.contains(I) or I.contains(self):
             return True
-        elif self.getLeft() < I.getLeft() and self.getRight() > I.getLeft() and self.getRight() < I.getRight():
+        elif self.getLeft() <= I.getLeft() and self.getRight() >= I.getLeft() and self.getRight() <= I.getRight():
             return True 
-        elif I.getLeft() < self.getLeft() and I.getRight() > self.getLeft() and I.getRight() < self.getRight():
+        elif I.getLeft() <= self.getLeft() and I.getRight() >= self.getLeft() and I.getRight() <= self.getRight():
             return True 
         return False 
 

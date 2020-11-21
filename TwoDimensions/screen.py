@@ -47,7 +47,7 @@ class Screen:
                 x, y = event.x, event.y
                 x1, y1 = self.canvas.old_coords
                 self.canvas.create_line(near(x), near(y), near(x), near(y1), width=3)
-                self.points.append([(near(x), (min(near(y), near(y1)))), (near(x), max(near(y), near(y1)))])
+                self.points.append([near(x), [min(near(y), near(y1)), max(near(y), near(y1))]])
         self.drawFunctions = [draw_line, draw_point]
         self.f = self.drawFunctions[0]
         self.window.bind('<ButtonPress-1>', self.f)
