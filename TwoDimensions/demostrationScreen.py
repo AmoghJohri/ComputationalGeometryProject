@@ -58,12 +58,30 @@ class DemonstrationScreen:
                 q.append(curr.getLeftChild())
             if curr.getRightChild() != None:    
                 q.append(curr.getRightChild())
-            mid = curr.getInterval().getMid()
-            self.canvas.create_line(mid-3, 500 - curr.getHeight()*50, mid+3, 500 - curr.getHeight()*50)
             if curr.getLeftChild() != None:
-                self.canvas.create_line(mid, 500 - curr.getHeight()*50, curr.getLeftChild().getInterval().getMid(), 500 - curr.getLeftChild().getHeight()*50)
+                curr.getLeftChild().getInterval().print()
             if curr.getRightChild() != None:
-                self.canvas.create_line(mid, 500 - curr.getHeight()*50, curr.getRightChild().getInterval().getMid(), 500 - curr.getRightChild().getHeight()*50)
+                curr.getRightChild().getInterval().print()
+            left = max(0, curr.getInterval().getLeft())
+            left = min(left, 600)
+            right = min(600, curr.getInterval().getRight())
+            right = max(right, 0)
+            mid = (left + right)/2
+            self.canvas.create_line(mid-3, 500 - curr.getHeight()*50, mid+3, 500 - curr.getHeight()*50, width=3)
+            if curr.getLeftChild() != None:
+                leftChild = max(0, curr.getLeftChild().getInterval().getLeft())
+                leftChild = min(leftChild, 600)
+                rightChild = min(600, curr.getLeftChild().getInterval().getRight())
+                rightChild = max(rightChild, 0)
+                midChild = (leftChild + rightChild)/2
+                self.canvas.create_line(mid, 500 - curr.getHeight()*50, midChild, 500 - (curr.getLeftChild().getHeight())*50, width=3)
+            if curr.getRightChild() != None:
+                leftChild = max(0, curr.getRightChild().getInterval().getLeft())
+                leftChild = min(leftChild, 600)
+                rightChild = min(600, curr.getRightChild().getInterval().getRight())
+                rightChild = max(rightChild, 0)
+                midChild = (leftChild + rightChild)/2
+                self.canvas.create_line(mid, 500 - curr.getHeight()*50, midChild, 500 - (curr.getRightChild().getHeight())*50, width=3)
 
 
 if __name__ == "__main__":
