@@ -1,4 +1,5 @@
 class Node:
+    # this corresponds to a node in the segment tree
     def __init__(self, interval, parent = None, leftChild = None, rightChild = None, height = None, intervalArr = {}):
         self.interval    = interval 
         self.parent      = parent
@@ -7,6 +8,7 @@ class Node:
         self.height      = height
         self.intervalArr = intervalArr
 
+    # getters
     def getInterval(self):
         return self.interval 
 
@@ -28,24 +30,27 @@ class Node:
     def getHeight(self):
         return self.height
 
+    # setters
     def setParent(self, parent):
-        self.parent = parent 
+        self.parent      = parent 
 
     def setLeftChild(self, leftChild):
-        self.leftChild = leftChild 
+        self.leftChild   = leftChild 
     
     def setRightChild(self, rightChild):
-        self.rightChild = rightChild
+        self.rightChild  = rightChild
     
     def setInterval(self, interval):
-        self.interval = interval
+        self.interval    = interval
 
     def setintervalArr(self, intervalArr):
         self.intervalArr = intervalArr
 
+    # merges two intervals
     def addInterval(self, interval):
         self.intervalArr[tuple(interval)] = True
 
+    # searching for an interval
     def searchInterval(self, interval):
         try:
             if self.intervalArr[tuple(interval.getInterval())]:
@@ -54,6 +59,7 @@ class Node:
         except:
             return False
 
+    # delete an interval
     def deleteInterval(self, interval):
         try:
             del self.intervalArr[interval]

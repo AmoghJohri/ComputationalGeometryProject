@@ -1,12 +1,15 @@
+# importing standard libraries
 import sys
 import copy
-from Node     import Node
-from Interval import Interval
+# import modules
+from   node     import Node
+from   interval import Interval
 
-MIN     = sys.float_info.min
-MAX     = sys.float_info.max
-epsilon = 1e-9 # to perturb points
+MIN     = sys.float_info.min # for negative infinity
+MAX     = sys.float_info.max # for infinity
+epsilon = 1e-9               # to perturb points
 
+# takes the input intervals, and returns the elementary intervals
 def getElementaryIntervals(intervals, returnList = 0):
     # array to store all the end points of the interval
     arr         = []
@@ -37,6 +40,7 @@ def getElementaryIntervals(intervals, returnList = 0):
     # returning the list of elementary intervals
     return elementaryIntervals
 
+# recursively creates the segment tree (bottom to top)
 def recursiveCreateSegmentTree(nodes):
     # these shall contain the new nodes that are added
     newNodes = []
@@ -62,6 +66,7 @@ def recursiveCreateSegmentTree(nodes):
     # returning the root node
     return newNodes[0]
 
+# creates the segement tree for the input intervals
 def createSegmentTree(intervals):
     # getting all the elementary intervals
     elemIntervals = getElementaryIntervals(intervals)
@@ -72,6 +77,7 @@ def createSegmentTree(intervals):
     # attach all the intervals
     return attachIntervals(root, intervals)
 
+# attaching the intervals to the correct nodes (for O(nlog(n)) space complexity)
 def attachIntervals(root, intervals):
     # attaching an interval to segment tree
     def attachInterval(curr, interval):
@@ -91,30 +97,28 @@ def attachIntervals(root, intervals):
         attachInterval(root, Interval(each[0], each[1]))
     return root
 
+# querying for a point
 def query(root, value):
-    out  = []
+    out  = []   # placeholder to store all the intervals which contain the query point
     curr = root 
     while True:
+        # check whether the current node has intervals corresponding to it, if yes, then add those
         if len(curr.getIntervalArr()) > 0:
             out.extend(curr.getIntervalArr())
         if curr.getLeftChild() != None:
-            if Interval.liesOnInterval(curr.getLeftChild().getInterval(), value):
+            # checks whether to move towards the left
+            if Interval.liesOnInterval(curr.getLeftChild().getInterval(), value) or Interval.liesInInterval(curr.getLeftChild().getInterval(), value):
                 curr = curr.getLeftChild()
                 continue 
         if curr.getRightChild() != None:
-            if Interval.liesOnInterval(curr.getRightChild().getInterval(), value):
+            # checks whether to move towards the right
+            if Interval.liesOnInterval(curr.getRightChild().getInterval(), value) or Interval.liesInInterval(curr.getRightChild().getInterval(), value):
                 curr = curr.getRightChild()
                 continue 
-        if curr.getLeftChild() != None:
-            if Interval.liesInInterval(curr.getLeftChild().getInterval(), value):
-                curr = curr.getLeftChild()
-                continue 
-        if curr.getRightChild() != None:
-            if Interval.liesInInterval(curr.getRightChild().getInterval(), value):
-                curr = curr.getRightChild()
-                continue 
+        # returns the list of intervals
         return out
 
+# Does a level-order traversal of the segment tree
 def BFS(root):
     q = []
     q.append(root)
