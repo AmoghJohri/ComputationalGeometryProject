@@ -26,14 +26,6 @@ class Screen:
                 return x - x%20
             return x + (20 - x%20)
 
-        # to take input on the screen
-        def draw(event):
-            x, y = event.x, event.y
-            if self.canvas.old_coords:
-                x1, y1 = self.canvas.old_coords
-                self.canvas.create_line(x, y, x1, y1, width=3)
-            self.canvas.old_coords = x, y
-
         # to take a line as an input
         def draw_line(event):
             if str(event.type) == 'ButtonPress':
@@ -42,7 +34,7 @@ class Screen:
                 x, y = event.x, event.y
                 x1, y1 = self.canvas.old_coords
                 self.canvas.create_line(near(x), near(y), near(x1), near(y), width=3)
-                self.intervals.append([min(near(x),near(x1)), max(near(x),near(x1))])
+                self.intervals.append([min(near(x),near(x1)) + 40, max(near(x),near(x1)) + 40])
 
         # to take the query point as input
         def draw_point(event):
@@ -51,8 +43,8 @@ class Screen:
             elif str(event.type) == 'ButtonRelease':
                 x, y   = event.x, event.y
                 x1, y1 = self.canvas.old_coords
-                self.canvas.create_line(near(x), 0, near(x), 600, width=3)
-                self.points.append(near(x))
+                self.canvas.create_line(near(x), 0, near(x), 560, width=3)
+                self.points.append(near(x)+40)
         
         def reset_coords(event):
             self.canvas.old_coords = None
@@ -75,9 +67,20 @@ class Screen:
     # drawing grid lines
     def drawGrid(self):
         fine = 20
-        for i in range(int(self.width/fine)):
-            self.canvas.create_line(i*fine, 0, i*fine, 600)
-            self.canvas.create_line(0, i*fine, 600, i*fine)
+        for i in range(int(self.width/fine)-1):
+            self.canvas.create_line((i+2)*fine, 0, (i+2)*fine, 600-2*fine)
+            self.canvas.create_line(2*fine, i*fine, 600, i*fine)
+        for j in range(0, 600, 40):
+            if j == 560 or j == 0:
+                continue
+            self.canvas.create_text(20,j,fill="darkblue",font="Times 10 italic bold",
+                        text=str(560-j))
+            self.canvas.create_text(j+40,580,fill="darkblue",font="Times 10 italic bold",
+                        text=str(j))
+        self.canvas.create_text(40,580,fill="darkblue",font="Times 10 italic bold",
+                        text=str(0))
+        self.canvas.create_text(20,560,fill="darkblue",font="Times 10 italic bold",
+                        text=str(0))
 
     # clears the screen and the local vairables with the values
     def clearScreen(self):

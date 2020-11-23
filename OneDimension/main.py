@@ -13,7 +13,7 @@ class Main:
         screen_width     = root.winfo_screenwidth()
         screen_height    = root.winfo_screenheight()
         # placing the toplevel
-        root.geometry("500x300+%d+%d" % (((280/1900)*screen_width + 425), (((1040.0-220)/1000)*screen_height)-670))
+        root.geometry("500x250+%d+%d" % (((280/1900)*screen_width + 425), (((1040.0-220)/1000)*screen_height)-670))
         # defining the toplevels
         screenWindow              = Screen()
         demonstrationScreenWindow = DemonstrationScreen()
@@ -69,19 +69,37 @@ class Main:
         # draws the segment tree
         def drawSegmentTree():
             demonstrationScreenWindow.drawSegmentTree(self.root)
+
+        # draws grid lines in demonstration screen
+        def drawGridLines():
+            demonstrationScreenWindow.drawGrid()
+
+        # draws a visualization of the query
+        def visualizeQuery():
+            demonstrationScreenWindow.drawQuery(self.queryPoints[self.counter], SegmentTree.query(self.root, self.queryPoints[self.counter]))
+            demonstrationScreenWindow.visualizeQuery(self.root, SegmentTree.query(self.root, self.queryPoints[self.counter], visualize=1))
+            self.counter += 1
+            self.counter  = self.counter%len(self.queryPoints)
+
+        # toggle popup display
+        def toggle():
+            demonstrationScreenWindow.toggle()
         
         # defining the buttons
-        clearScreenButton             = tk.Button(root, text="Clear Screen",         command=clearScreen,             height=1, width=20)
-        getIntervalsButton            = tk.Button(root, text="Get Intervals",        command=getIntervals,            height=1, width=20)
-        showElementaryIntervalsButton = tk.Button(root, text="Show Elem. Intervals", command=showElementaryIntervals, height=1, width=20)
-        clearDemoScreenButton         = tk.Button(root, text="Clear Demo. Screen",   command=clearDemoScreen,         height=1, width=20)
-        drawLinesButton               = tk.Button(root, text="Draw Intervals",       command=drawLines,               height=1, width=20)
-        drawPointsButton              = tk.Button(root, text="Draw Points",          command=drawPoints,              height=1, width=20)
-        getQueryPointsButton          = tk.Button(root, text="Get Query Points",     command=getQueryPoints,          height=1, width=20)
-        buildSegmentTreeButton        = tk.Button(root, text="Build Segment Tree",   command=buildSegmentTree,        height=1, width=20)
-        resetCounterButton            = tk.Button(root, text="Reset Counter",        command=resetCounter,            height=1, width=20)
-        drawQueryButton               = tk.Button(root, text="Draw Query Result",    command=drawQuery,               height=1, width=20)
-        drawSegmentTreeButton         = tk.Button(root, text="Draw Segment Tree",    command=drawSegmentTree,         height=1, width=20)
+        clearScreenButton                 = tk.Button(root, text="Clear Screen",         command=clearScreen,             height=1, width=20)
+        getIntervalsButton                = tk.Button(root, text="Get Intervals",        command=getIntervals,            height=1, width=20)
+        showElementaryIntervalsButton     = tk.Button(root, text="Show Elem. Intervals", command=showElementaryIntervals, height=1, width=20)
+        clearDemoScreenButton             = tk.Button(root, text="Clear Demo. Screen",   command=clearDemoScreen,         height=1, width=20)
+        drawLinesButton                   = tk.Button(root, text="Draw Intervals",       command=drawLines,               height=1, width=20)
+        drawPointsButton                  = tk.Button(root, text="Draw Points",          command=drawPoints,              height=1, width=20)
+        getQueryPointsButton              = tk.Button(root, text="Get Query Points",     command=getQueryPoints,          height=1, width=20)
+        buildSegmentTreeButton            = tk.Button(root, text="Build Segment Tree",   command=buildSegmentTree,        height=1, width=20)
+        resetCounterButton                = tk.Button(root, text="Reset Counter",        command=resetCounter,            height=1, width=20)
+        drawQueryButton                   = tk.Button(root, text="Draw Query Result",    command=drawQuery,               height=1, width=20)
+        drawSegmentTreeButton             = tk.Button(root, text="Draw Segment Tree",    command=drawSegmentTree,         height=1, width=20)
+        drawGridLinesButton               = tk.Button(root, text="Draw Grid Lines",      command=drawGridLines,           height=1, width=20)
+        segmentTreeNodeInfoButton         = tk.Button(root, text="Visualize Query",      command=visualizeQuery,          height=1, width=20)
+        popupToggleButton                 = tk.Button(root, text="Toggle Popup",         command=toggle,                  height=1, width=20)
         # placing the buttons
         clearScreenButton.grid            (row=0,column=0,padx=(30,30),pady=(5,5))
         getIntervalsButton.grid           (row=0,column=1,padx=(30,30),pady=(5,5))
@@ -94,6 +112,9 @@ class Main:
         resetCounterButton.grid           (row=4,column=0,padx=(30,30),pady=(5,5))
         drawQueryButton.grid              (row=4,column=1,padx=(30,30),pady=(5,5))
         drawSegmentTreeButton.grid        (row=5,column=0,padx=(30,30),pady=(5,5))
+        drawGridLinesButton.grid          (row=5,column=1,padx=(30,30),pady=(5,5))
+        segmentTreeNodeInfoButton.grid    (row=6,column=0,padx=(30,30),pady=(5,5))
+        popupToggleButton.grid            (row=6,column=1,padx=(30,30),pady=(5,5))
         # trigger the main loop
         root.mainloop()
 

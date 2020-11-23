@@ -98,13 +98,16 @@ def attachIntervals(root, intervals):
     return root
 
 # querying for a point
-def query(root, value):
-    out  = []   # placeholder to store all the intervals which contain the query point
-    curr = root 
+def query(root, value, visualize = 0):
+    out       = []   # placeholder to store all the intervals which contain the query point
+    vis_arr   = []   # for visualizing the search
+    curr      = root 
     while True:
         # check whether the current node has intervals corresponding to it, if yes, then add those
         if len(curr.getIntervalArr()) > 0:
             out.extend(curr.getIntervalArr())
+            if visualize:
+                vis_arr.append(copy.deepcopy(curr))
         if curr.getLeftChild() != None:
             # checks whether to move towards the left
             if Interval.liesOnInterval(curr.getLeftChild().getInterval(), value) or Interval.liesInInterval(curr.getLeftChild().getInterval(), value):
@@ -116,6 +119,8 @@ def query(root, value):
                 curr = curr.getRightChild()
                 continue 
         # returns the list of intervals
+        if visualize:
+            return vis_arr
         return out
 
 # Does a level-order traversal of the segment tree
