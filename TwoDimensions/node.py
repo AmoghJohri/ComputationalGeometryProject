@@ -1,8 +1,9 @@
-from AVL import AVL_Tree 
-from Line     import Line
+# importing modules
+from avl          import AVL_Tree 
 from treeInterval import TreeInterval
-
+# this corresponds to a node in the segment tree
 class Node:
+    # initialization function
     def __init__(self, interval, parent = None, leftChild = None, rightChild = None, height = None, bst = AVL_Tree(), root = None):
         self.interval    = interval 
         self.parent      = parent
@@ -12,15 +13,9 @@ class Node:
         self.root        = root
         self.bst         = bst
 
+    # getters
     def getTree(self):
         return self.root
-
-    def query(self, interval):
-        return self.bst.query(self.root, interval)
-
-    def addSegment(self, line):
-        key = TreeInterval(((self.interval.getLeft()*line.getSlope() + line.getConstant()),  (self.interval.getRight()*line.getSlope() + line.getConstant())))
-        self.root = self.bst.insert(self.root, key, line)
 
     def getInterval(self):
         return self.interval 
@@ -37,6 +32,7 @@ class Node:
     def getHeight(self):
         return self.height
 
+    # setters
     def setParent(self, parent):
         self.parent = parent 
 
@@ -48,3 +44,12 @@ class Node:
     
     def setInterval(self, interval):
         self.interval = interval
+
+    # queries for a vertical line-segment in a node
+    def query(self, x_value, interval):
+        return self.bst.query(self.root, x_value, interval)
+
+    # adds a segment to the node
+    def addSegment(self, line):
+        key = TreeInterval(line, self.interval) 
+        self.root = self.bst.insert(self.root, key, line)

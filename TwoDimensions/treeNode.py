@@ -1,3 +1,4 @@
+# this corresponds to a node in the avl-tree
 class TreeNode(object): 
     def __init__(self, val, data): 
         self.data = data

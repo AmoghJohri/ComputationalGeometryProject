@@ -1,9 +1,18 @@
+# importing modules
+from line import Line 
+# this corresponds to the segment tree interval stored at every node
 class TreeInterval:
-    def __init__(self, interval):
-        self.mid = (interval[0] + interval[1])/2
-        self.interval = [interval[0], interval[1]]
-        self.height = 1
+    # initialization method
+    def __init__(self, line, inter):
+        if not line.isVertical():
+            interval    = ((inter.getLeft()*line.getSlope() + line.getConstant()),  (inter.getRight()*line.getSlope() + line.getConstant()))
+        else:
+            interval    = (line.getTopPoint(), line.getBottomPoint())
+        self.mid        = (interval[0] + interval[1])/2
+        self.interval   = [interval[0], interval[1]]
+        self.height     = 1
 
+    # overloading operators
     def __lt__(self, other):
         if type(other) == int or type(other) == float:
             if min(self.interval) < other:

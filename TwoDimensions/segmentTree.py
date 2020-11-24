@@ -1,15 +1,17 @@
+# importing standard libraries
 import sys
 import copy
+# importing modules
+from node     import Node
+from line     import Line 
+from point    import Point
+from interval import Interval
 
-from Node     import Node
-from Line     import Line 
-from Point    import Point
-from Interval import Interval
+MIN     = -1* sys.float_info.max # for negative infinity
+MAX     = sys.float_info.max     # for infinity
+epsilon = 1e-9                   # to perturb points
 
-MIN     = sys.float_info.min
-MAX     = sys.float_info.max
-epsilon = 1e-9 # to perturb points
-
+# get the points from the intervals containing end-points
 def getPoints(intervals):
     arr         = []
     # adding all the end points of the intervals
@@ -19,12 +21,14 @@ def getPoints(intervals):
         arr.append(Point(each[1][0], each[1][1], line=l))
     return arr
 
+# get line segments from the intervals containing end-points
 def getLineSegments(intervals):
     arr = []
     for each in intervals:
         arr.append(Line((each[0][0], each[1][0]), (each[0][1], each[1][1])))
     return arr
 
+# get all elementary intervals
 def getElementaryIntervals(intervals, returnList = 0):
     arr = getPoints(intervals)
     # sorting the array with all the end points
@@ -51,6 +55,7 @@ def getElementaryIntervals(intervals, returnList = 0):
     # returning the list of elementary intervals
     return elementaryIntervals
 
+# recursively creates the segment tree
 def recursiveCreateSegmentTree(nodes):
     # these shall contain the new nodes that are added
     newNodes = []
@@ -76,6 +81,7 @@ def recursiveCreateSegmentTree(nodes):
     # returning the root node
     return newNodes[0]
 
+# creates the segment tree for a list of intervals
 def createSegmentTree(intervals):
     # getting all the elementary intervals
     elemIntervals = getElementaryIntervals(intervals)
@@ -87,6 +93,7 @@ def createSegmentTree(intervals):
     segments = getLineSegments(intervals)
     return attachIntervals(root, segments)
 
+# attaches the intervals to the segment tree
 def attachIntervals(root, segments):
     # attaching an interval to segment tree
     def attachInterval(curr, segment):
@@ -107,31 +114,35 @@ def attachIntervals(root, segments):
         attachInterval(root, each)
     return root
 
-def query(root, query):
-    out  = []
-    curr = root 
-    x_value = query[0]
+# querying for a point
+def query(root, query, visualize = 0):
+    out      = [] # placeholder to store all the intervals which contain the query point
+    vis_arr  = [] # for visualizing the search
+    curr     = root 
+    x_value  = query[0]
     interval = query[1]
     while True:
-        out.extend(curr.query([interval[0],interval[1]]))
+        # check whether the current node has intervals corresponding to it, if yes, then add those
+        out.extend(curr.query(x_value, interval))
+        if visualize:
+            if len(curr.query(x_value, interval)):
+                vis_arr.append(copy.deepcopy(curr))
         if curr.getLeftChild() != None:
-            if Interval.liesOnInterval(curr.getLeftChild().getInterval(), x_value):
+            # checks whether to move towards the left
+            if Interval.liesOnInterval(curr.getLeftChild().getInterval(), x_value) or Interval.liesInInterval(curr.getLeftChild().getInterval(), x_value):
                 curr = curr.getLeftChild()
                 continue 
         if curr.getRightChild() != None:
-            if Interval.liesOnInterval(curr.getRightChild().getInterval(), x_value):
+            # checks whether to move towards the right
+            if Interval.liesOnInterval(curr.getRightChild().getInterval(), x_value) or Interval.liesInInterval(curr.getRightChild().getInterval(), x_value):
                 curr = curr.getRightChild()
                 continue 
-        if curr.getLeftChild() != None:
-            if Interval.liesInInterval(curr.getLeftChild().getInterval(), x_value):
-                curr = curr.getLeftChild()
-                continue 
-        if curr.getRightChild() != None:
-            if Interval.liesInInterval(curr.getRightChild().getInterval(), x_value):
-                curr = curr.getRightChild()
-                continue 
+        # returns the list of intervals or nodes
+        if visualize:
+            return vis_arr
         return out
-
+        
+# Does a level-order traversal of the segment tree
 def BFS(root):
     q = []
     q.append(root)
