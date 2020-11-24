@@ -7,7 +7,7 @@ Given a set of n non-intersecting line segments of arbitrary orientation, implem
 
 This file is help the user interact with the modules. The implementation for both the cases, (i.e., One Dimensional variant and Two Dimensional variant) has been done separately. This has been stored in the directories with the corresponding names. The interface for both the implementations is quite similar, and the steps to use it are as follows:
 
-### Running the applicatino
+### Running the application
 Use ``` python main.py ``` to run the application. <br>
 This shall open 3 windows, a *Main Window*, *Screen* and *Demonstration Screen*. All the inputs are to be given on the *Screen Window*, and the *Demonstration Screen* window is to facilitate interactive visualization of the algorithm. <br>
 On executing the above command, the *Main Window* shall appear as shown below.
