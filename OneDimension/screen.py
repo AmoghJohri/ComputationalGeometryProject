@@ -34,7 +34,7 @@ class Screen:
                 x, y = event.x, event.y
                 x1, y1 = self.canvas.old_coords
                 self.canvas.create_line(near(x), near(y), near(x1), near(y), width=3)
-                self.intervals.append([min(near(x),near(x1)) + 40, max(near(x),near(x1)) + 40])
+                self.intervals.append([near(y), [min(near(x),near(x1)) + 40, max(near(x),near(x1)) + 40]])
 
         # to take the query point as input
         def draw_point(event):

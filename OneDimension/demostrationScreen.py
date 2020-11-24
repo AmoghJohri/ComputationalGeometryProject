@@ -1,6 +1,4 @@
 # importing standard libraries
-import copy
-import random
 import tkinter as tk
 from   tkinter import ttk
 # importing modules
@@ -61,6 +59,12 @@ class DemonstrationScreen:
                 return True 
         return False
 
+    # match interval
+    def match(self, l1, l2):
+        if min(l1) == min(l2) and max(l1) == max(l2):
+            return True 
+        return False
+
     # clears the demonstration screen
     def clearScreen(self):
         self.canvas.delete('all')
@@ -99,34 +103,27 @@ class DemonstrationScreen:
         for each in intervals:
             self.canvas.create_line(each[0]-40, 0, each[0]-40, 560, width=3)
             self.canvas.create_line(each[1]-40, 0, each[1]-40, 560, width=3)
-        i = 100
-        j = 0
-        # randomly selecting the color for the input interval
-        arr  = random.sample(range(0, 99), len(intervals2))
-        arr2 = ["a","b","c","d","e"]
         # drawing the input intervals
         for each in intervals2:
-            self.canvas.create_line(each[0]-40, i, each[1]-40, i, width=3, fill="#" + arr2[j%5] + "%02x" % arr[j])
-            j += 1
-            i += 20
+            self.canvas.create_line(each[1][0]-40, each[0], each[1][1]-40, each[0], width=3)
 
     # draws vertical query segment and all the corresponding query intervals
-    def drawQuery(self, point, arr):
+    def drawQuery(self, point, arr, arr_):
         self.canvas.delete('all')
         self.drawGrid()
         # drawing the vertical query segment
         self.canvas.create_line(point-40, 0, point-40, 560, width=3)
-        i = 100
         # drawing the corresponding query intervals
         for each in arr:
-            self.canvas.create_line(each[0]-40, i, each[1]-40, i, width=3)
-            i += 20
+            for inter in arr_:
+                if self.match(inter[1], each):
+                    self.canvas.create_line(each[0]-40, inter[0], each[1]-40, inter[0], width=3)
 
     # to popup and display values
     def popupmsg(self, msg):
         if self.active:
             popup = tk.Tk()
-            popup.geometry("600x300+%d+%d" % (1.25*self.width, self.height/5))
+            popup.geometry("400x300+%d+%d" % (1.25*self.width, self.height/5))
             popup.wm_title("Interval")
             label = ttk.Label(popup, text=msg, font=LARGE_FONT)
             label.pack(side="top", fill="x", pady=30)

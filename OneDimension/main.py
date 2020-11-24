@@ -19,6 +19,7 @@ class Main:
         demonstrationScreenWindow = DemonstrationScreen()
         # defining local variables
         self.intervals   = []
+        self.intervals_  = []
         self.queryPoints = []
         self.root        = None
         self.counter     = 0
@@ -33,12 +34,14 @@ class Main:
 
         # gets the input intervals
         def getIntervals():
-            self.intervals = screenWindow.getIntervals()
+            self.intervals_ = screenWindow.getIntervals()
+            self.intervals  = [each[1] for each in self.intervals_]
+
 
         # displays the elementary intervals
         def showElementaryIntervals():
             elemIntervals = SegmentTree.getElementaryIntervals(self.intervals, returnList=1)
-            demonstrationScreenWindow.drawElementaryIntervals(elemIntervals, self.intervals)
+            demonstrationScreenWindow.drawElementaryIntervals(elemIntervals, self.intervals_)
 
         # to switch to drawing input intervals  
         def drawLines():
@@ -62,7 +65,7 @@ class Main:
 
         # draws each query point and the corresponding intervals
         def drawQuery():
-            demonstrationScreenWindow.drawQuery(self.queryPoints[self.counter], SegmentTree.query(self.root, self.queryPoints[self.counter]))
+            demonstrationScreenWindow.drawQuery(self.queryPoints[self.counter], SegmentTree.query(self.root, self.queryPoints[self.counter]), self.intervals_)
             self.counter += 1
             self.counter  = self.counter%len(self.queryPoints)
 
@@ -76,7 +79,7 @@ class Main:
 
         # draws a visualization of the query
         def visualizeQuery():
-            demonstrationScreenWindow.drawQuery(self.queryPoints[self.counter], SegmentTree.query(self.root, self.queryPoints[self.counter]))
+            demonstrationScreenWindow.drawQuery(self.queryPoints[self.counter], SegmentTree.query(self.root, self.queryPoints[self.counter]),  self.intervals_)
             demonstrationScreenWindow.visualizeQuery(self.root, SegmentTree.query(self.root, self.queryPoints[self.counter], visualize=1))
             self.counter += 1
             self.counter  = self.counter%len(self.queryPoints)
