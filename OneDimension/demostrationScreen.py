@@ -1,9 +1,6 @@
 # importing standard libraries
 import tkinter as tk
 from   tkinter import ttk
-# importing modules
-from node import Node
-
 # defining the font
 FONT="Times 10 italic bold" 
 LARGE_FONT="Times 25 italic bold" 
@@ -24,7 +21,6 @@ class DemonstrationScreen:
         self.canvas.old_coords = None
         # declaring class variables
         self.intervals         = []
-        self.buttons           = []
         self.segTreeNodes      = []
         self.active            = 1
 
@@ -50,6 +46,7 @@ class DemonstrationScreen:
                     
         self.window.bind('<ButtonPress-1>', draw_point)
         self.window.bind('<ButtonRelease-1>', draw_point)
+        self.drawGrid()
 
     # checks whether a node belongs in a list
     def belongs(self, node, list):
@@ -68,7 +65,6 @@ class DemonstrationScreen:
     # clears the demonstration screen
     def clearScreen(self):
         self.canvas.delete('all')
-        self.buttons = []
 
     # toggle popupmessage
     def toggle(self):
@@ -94,25 +90,26 @@ class DemonstrationScreen:
         self.canvas.create_text(20,560,fill="darkblue",font=FONT,
                         text=str(0))
 
-    # drawing elementary intervals corresponding to the unit
+    # drawing elementary intervals corresponding to the input
     def drawElementaryIntervals(self, intervals, intervals2):
         # intervals2 consist of input intervals
         # intervals consist of elementary intercals
         self.canvas.delete('all')
+        self.drawGrid()
         # drawing the elementary intervals
         for each in intervals:
             self.canvas.create_line(each[0]-40, 0, each[0]-40, 560, width=3)
             self.canvas.create_line(each[1]-40, 0, each[1]-40, 560, width=3)
         # drawing the input intervals
         for each in intervals2:
-            self.canvas.create_line(each[1][0]-40, each[0], each[1][1]-40, each[0], width=3)
+            self.canvas.create_line(each[1][0]-40, each[0], each[1][1]-40, each[0], width=3, fill="blue")
 
     # draws vertical query segment and all the corresponding query intervals
     def drawQuery(self, point, arr, arr_):
         self.canvas.delete('all')
         self.drawGrid()
         # drawing the vertical query segment
-        self.canvas.create_line(point-40, 0, point-40, 560, width=3)
+        self.canvas.create_line(point-40, 0, point-40, 560, width=3, fill="blue")
         # drawing the corresponding query intervals
         for each in arr:
             for inter in arr_:

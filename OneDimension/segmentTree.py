@@ -5,9 +5,9 @@ import copy
 from   node     import Node
 from   interval import Interval
 
-MIN     = sys.float_info.min # for negative infinity
-MAX     = sys.float_info.max # for infinity
-epsilon = 1e-9               # to perturb points
+MIN     = -1* sys.float_info.max # for negative infinity
+MAX     = sys.float_info.max     # for infinity
+epsilon = 1e-9                   # to perturb points
 
 # takes the input intervals, and returns the elementary intervals
 def getElementaryIntervals(intervals, returnList = 0):
@@ -118,7 +118,7 @@ def query(root, value, visualize = 0):
             if Interval.liesOnInterval(curr.getRightChild().getInterval(), value) or Interval.liesInInterval(curr.getRightChild().getInterval(), value):
                 curr = curr.getRightChild()
                 continue 
-        # returns the list of intervals
+        # returns the list of intervals or nodes
         if visualize:
             return vis_arr
         return out

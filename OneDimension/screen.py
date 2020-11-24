@@ -45,13 +45,10 @@ class Screen:
                 x1, y1 = self.canvas.old_coords
                 self.canvas.create_line(near(x), 0, near(x), 560, width=3)
                 self.points.append(near(x)+40)
-        
-        def reset_coords(event):
-            self.canvas.old_coords = None
 
         # variables to toggle between interval input and point input
         self.drawFunctions = [draw_line, draw_point]
-        self.f = self.drawFunctions[0]
+        self.f             = self.drawFunctions[0]
         self.window.bind('<ButtonPress-1>', self.f)
         self.window.bind('<ButtonRelease-1>', self.f)
 
